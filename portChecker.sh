@@ -19,6 +19,24 @@ help ()
     exit   
 }
 
+trap _summary SIGHUP SIGINT SIGTERM
+
+_summary ()
+{
+    progress 50
+    echo -e "\n--------------------"
+    echo -e "${GREEN}PORT CHECKER${NC}"
+    echo "--------------------"
+    echo -e "Nb error : ${RED}$nbError${NC}"
+    echo "--------------------"
+    if [[ -z $recap ]]; then
+        echo -ne "${RED}{EMPTY}${NC}\n"
+    else
+        echo -ne "${RED}$recap${NC}"
+    fi
+    echo "--------------------"
+}
+
 # PROGRESSBAR RATIO 0.5
 function progress () {
 
@@ -120,17 +138,5 @@ do
 done
 
 # END PROGRESSBAR
-progress 50
-
-echo -e "\n--------------------"
-echo -e "${GREEN}PORT CHECKER${NC}"
-echo "--------------------"
-echo -e "Nb error : ${RED}$nbError${NC}"
-echo "--------------------"
-if [[ -z $recap ]]; then
-    echo -ne "${RED}{EMPTY}${NC}\n"
-else
-    echo -ne "${RED}$recap${NC}"
-fi
-echo "--------------------"
+_summary
 )
