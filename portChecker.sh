@@ -19,15 +19,46 @@ help ()
     exit   
 }
 
+# PROGRESSBAR RATIO 0.5
+function progress () {
+
+    nb=$[$1 * 2];
+    echo -en "\rProgression $nb% ["
+    if [[ ! -z $1 ]]; then
+        it=0
+        while [ $it != $1 ]; do
+            echo -en "${GREEN}#${NC}"
+            it=$[$it+1]
+        done
+    fi 
+    while [[ $it != 50 ]]; do
+        echo -en "."
+        it=$[$it+1]
+    done
+    echo -ne "]"
+}
 
 if [[ "$#" > 2 || "$#" < 1 ]]
 then
   usage
 fi
 
+
+if [[ "$#" == 1 ]]; then
+    lines=$(wc -l < $1)
+    linectr=0
+fi
+
 cat $1 | ( while read a b c d; 
 
 do 
+
+    if [[ "$#" == 1 ]]; then
+        perc=$(( linectr * 100 / lines ))
+        perc=$[$perc/2]
+        #echo $perc
+        progress $perc
+    fi
     # REGION TCP
     if [[ -z "$c" ]]; then
         if [[ $2 == "-v" ]]; then
@@ -85,7 +116,11 @@ do
         done
     fi
     #END REGION
+    linectr=$[$linectr+1]
 done
+
+# END PROGRESSBAR
+progress 50
 
 echo -e "\n--------------------"
 echo -e "${GREEN}PORT CHECKER${NC}"
