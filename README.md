@@ -1,4 +1,6 @@
-# PortChecker
+<p align="center">
+  <img src="http://i.imgur.com/mrR59Vb.png" alt="portChecker"/>
+</p>
 
 ## Content
 
