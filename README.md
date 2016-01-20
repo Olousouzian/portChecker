@@ -10,3 +10,8 @@ Usefull for check any network parameters.
 ## Warning
 
 This script needs tcping and nc for working
+
+
+## License
+
+This solution is under MIT license.
